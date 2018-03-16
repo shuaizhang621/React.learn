@@ -18,6 +18,7 @@
             this.onClickBtn = this.onClickBtn.bind(this);
             this.onDelete = this.onDelete.bind(this);
         }
+        
         onClickBtn() {
             this.setState(prevState => {
                 return {
@@ -25,9 +26,11 @@
                 }
             });
         }
+        
         onDelete() {
             this.props.handleDelete(this.props.index);
         }
+        
         render() {
             const textStyle = {
                 'textDecoration': this.state.done ? 'line-through': 'none'
@@ -79,6 +82,7 @@
             this.setState({ userInput: e.target.value});
 
         }
+        
         render() {
             return (
                 <div>
