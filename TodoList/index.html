@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+    class TodoItem extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = { done: false };
+            this.onClickBtn = this.onClickBtn.bind(this);
+            this.onDelete = this.onDelete.bind(this);
+        }
+        onClickBtn() {
+            this.setState(prevState => {
+                return {
+                    done: !prevState.done
+                }
+            });
+        }
+        onDelete() {
+            this.props.handleDelete(this.props.index);
+        }
+        render() {
+            const textStyle = {
+                'textDecoration': this.state.done ? 'line-through': 'none'
+            };
+            const btnText = this.state.done ? 'Undo' : 'Done';
+            return (
+                <div>
+                    <button onClick={this.onClickBtn}>{btnText}</button>
+                    <span style={textStyle}>{this.props.text}</span>
+                    <button onClick={this.onDelete}>x</button>
+                </div>
+            );
+        }
+    }
+
+    class TodoList extends React.Component {
+        render() {
+            return (
+                <div>
+                    {this.props.todos.map((todo, i) => {
+                        return <TodoItem
+                            handleDelete={this.props.handleDelete}
+                            key={todo.id}
+                            index={i}
+                            text={todo.text}/>
+                    })}
+
+                </div>
+            );
+        }
+    }
+
+    class UserInput extends React.Component {
+        constructor(props) {
+            super(props);
+            this.onAdd = this.onAdd.bind(this);  //??
+            this.onInputChange = this.onInputChange.bind(this);
+            this.state = {
+                userInput: '',
+            }
+        }
+
+        onAdd() {
+            this.props.handleAdd(this.state.userInput);
+            this.setState({ userInput: ''});
+        }
+
+        onInputChange(e) {
+            this.setState({ userInput: e.target.value});
+
+        }
+        render() {
+            return (
+                <div>
+                    <input type="text" onChange={this.onInputChange}/>
+                    <button onClick={this.onAdd}>Add</button>
+                </div>
+            )
+        }
+    }
+
+    class App extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                todos: [
+                    { id: 1, text: 'todo 1'},
+                    { id: 2, text: 'todo 2'},
+                    { id: 3, text: 'todo 3'},
+                ]
+            };
+            this.handleAdd = this.handleAdd.bind(this);
+            this.handleDelete = this.handleDelete.bind(this);
+        }
+
+        handleAdd(text) {
+            this.setState(prevState => {
+                return {
+                    todos: [...prevState.todos, { id: Date.now(), text }]
+                }
+            });
+        }
+
+        handleDelete(index) {
+            this.setState(prevState => {
+                return {
+                    todos: [
+                        ...prevState.todos.slice(0, index),
+                        ...prevState.todos.slice(index + 1, prevState.todos.length)
+                    ]
+                };
+            });
+        }
+
+        render() {
+            return (
+                <div>
+                    <TodoList todos={this.state.todos} handleDelete={this.handleDelete}/>
+                    <UserInput handleAdd={this.handleAdd}/>
+                </div>
+            )
+        }
+    }
+
+    ReactDOM.render(<App/>, document.getElementById('root'));
+
+
+</script>
+</body>
+</html>
