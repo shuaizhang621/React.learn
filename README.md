@@ -40,4 +40,5 @@ There should be a single “source of truth” for any data that changes in a Re
 ### Callback Climbs Up
 When we want to pass the data generated from child component to parent component for a state change. We can pass binded function down as props. This means that child components can trigger state changes in their parent components.
 
-![structure](https://github.com/shuazhang621/React.learn/TodoList/WechatIMG45.jpeg)
+![structure](https://github.com/shuaizhang621/React.learn/raw/master/TodoList/WechatIMG51.jpeg)
+
