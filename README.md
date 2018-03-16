@@ -1,3 +1,3 @@
 # React.learn
 
-React learning note
+A React study note.
