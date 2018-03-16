@@ -42,3 +42,4 @@ When we want to pass the data generated from child component to parent component
 
 ![structure](https://github.com/shuaizhang621/React.learn/raw/master/TodoList/WechatIMG51.jpeg)
 
+@Credit to Richard
