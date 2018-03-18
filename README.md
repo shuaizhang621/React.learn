@@ -2,7 +2,9 @@
 
 A React study note.
 
-## Todo List App
+## Comunication Between Components
+
+Example: ToDo List APP
 
 React component and comunication between components
 
@@ -41,5 +43,35 @@ There should be a single “source of truth” for any data that changes in a Re
 When we want to pass the data generated from child component to parent component for a state change. We can pass binded function down as props. This means that child components can trigger state changes in their parent components.
 
 ![structure](https://github.com/shuaizhang621/React.learn/raw/master/TodoList/WechatIMG51.jpeg)
+
+## Component Life Cycle
+
+When we build or update a component, it follows below procedure:
+
+![lifeCycle](https://pbs.twimg.com/media/CbSfWgQW8AQSDJF.png:large)
+
+**Mounting**
+
+These methods are called when an instance of a component is being created and inserted into the DOM:
++ constructor()
++ componentWillMount()
++ render()
++ componentDidMount()
+
+**Updating**
+
+An update can be caused by changes to props or state. These methods are called when a component is being re-rendered:
++ componentWillReceiveProps()
++ shouldComponentUpdate()
++ componentWillUpdate()
++ render()
++ componentDidUpdate()
+
+**Unmounting**
+
+This method is called when a component is being removed from the DOM:
++ componentWillUnmount()
+
+https://reactjs.org/docs/react-component.html
 
 @Credit to Richard
