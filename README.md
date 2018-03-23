@@ -74,4 +74,128 @@ This method is called when a component is being removed from the DOM:
 
 https://reactjs.org/docs/react-component.html
 
-@Credit to Richard
+## Mili ..
+
+### Promises
+
+Old Calbacks
+```JavaScript
+function successCallback(result) {
+  console.log("It succeeded with " + result);
+}
+function failureCallback(error) {
+  console.log("It failed with " + error);
+}
+doSomething(successCallback, failureCallback);
+```
+
+Use promises to handle callback
+```JavaScript
+const promise = doSomething();
+promise.then(successCallback, failureCallback);
+// Or simply
+doSomething().then(successCallback, failureCallback);
+```
+
+```JavaScript
+function timeout(duration = 0) {
+ return new Promise((resolve, reject) => {
+   setTimeout(() => resolve(1), duration);
+ })
+}
+
+// Then
+timeout(1000).then((v) => {
+ console.log('resolved with: ' + v);
+}, (v) => {
+ console.log('rejected with: ' + v);
+})
+// resolved with: 1
+
+function timeout(duration = 0) {
+ return new Promise((resolve, reject) => {
+   setTimeout(() => reject(1), duration);
+ })
+}
+
+// Then
+timeout(1000).then((v) => {
+ console.log('resolved with: ' + v);
+}, (v) => {
+ console.log('rejected with: ' + v);
+})
+// rejected with: 0
+
+// Catch
+timeout(1000).then((v) => {
+ console.log('resolved with: ' + v);
+ throw new Error("hmm");
+}, (v) => {
+ console.log('rejected with: ' + v);
+}).catch((err) => {
+ console.log(err);
+})
+// resolved with: 1     if resolved
+// hmm
+
+
+// Chain
+
+function timeout(duration = 0) {
+ return new Promise((resolve, reject) => {
+   setTimeout(() => reject(2), duration);
+   //setTimeout(() => resolved(2), duration);
+ })
+}
+
+timeout(1000).then((v) => {
+ console.log('resolved with: ' + v);
+ return timeout(2000);
+}, (v) => {
+ console.log('rejected with: ' + v);
+ return timeout(5000);
+}).then((v) => {
+ console.log('resolved with: ' + v);
+ throw new Error("hmm");
+}, (v) => {
+ console.log('rejected with: ' + v);
+}).catch((err) => {
+ console.log(err);
+})
+// if resolved
+// 2 sec later...
+// resolved with 1
+// 5 sec later...
+// resolved with 1
+//hmm
+
+// if rejected
+// 2 sec later...
+// rejected with 2
+// 5 sec later...
+// rejected with 2
+```
+### Arrow functions in ES6+
+```Javascript
+// Manually bind, wherever you need to
+class PostInfo extends React.Component {
+  constructor(props) {
+    super(props);
+    // Manually bind this method to the component instance...
+    this.handleOptionsButtonClick = this.handleOptionsButtonClick.bind(this);
+  }
+  handleOptionsButtonClick(e) {
+    // ...to ensure that 'this' refers to the component instance here.
+    this.setState({showOptionsModal: true});
+  }
+}
+```
+In ES6, you only need to
+```JavaScript
+class PostInfo extends React.Component {
+  handleOptionsButtonClick = (e) => {
+    this.setState({showOptionsModal: true});
+  }
+}
+```
+https://babeljs.io/blog/2015/06/07/react-on-es6-plus
